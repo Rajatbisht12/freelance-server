@@ -4,24 +4,20 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
-const ratelimiter = require('express-rate-limiter');
+
 
 require('dotenv').config();
 
 const app = express();
 
-const limiter = ratelimiter({
-  windowMs : 60 * 1000,
-  max: 10,
-  message: 'Request limit reached'
-})
+
 // Middleware
 app.use(helmet());
 app.use(morgan('combined'));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(limiter);
+
 // Serve static files from uploads directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
